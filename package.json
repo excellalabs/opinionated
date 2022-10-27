@@ -7,6 +7,7 @@
     "test": "echo \"No tests yet...\""
   },
   "dependencies": {
+    "@azure/storage-queue": "^12.11.0",
     "axios": "^1.1.2"
   }
 }
