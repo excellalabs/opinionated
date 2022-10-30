@@ -1,0 +1,13 @@
+{
+  "bindings": [
+    {
+      "authLevel": "anonymous",
+      "type": "http",
+      "direction": "in",
+      "name": "question",
+      "methods": [
+        "post"
+      ]
+    }
+  ]
+}
