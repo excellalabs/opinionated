@@ -20,5 +20,5 @@ module.exports = async function (context, req) {
 
   context.log("hello from slack");
 
-  queueClient.sendMessage(req.body.hello);
+  // queueClient.sendMessage(req.body.hello);
 };
