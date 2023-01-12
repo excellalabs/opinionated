@@ -1,4 +1,5 @@
 const { QueueServiceClient } = require("@azure/storage-queue");
+const { parse } = require("qs");
 
 module.exports = async function (context, req) {
   const connectionString = process.env.STORAGE_CONNECTION_STRING;
@@ -10,15 +11,9 @@ module.exports = async function (context, req) {
 
   const queueClient = queueServiceClient.getQueueClient(queueName);
 
-  // context.log("body", req.body);
+  const parsedData = parse(req.rawBody);
 
-  // context.log("try - query params", req.query.name);
+  context.log(parsedData.text);
 
-  // context.log("context.bindings", context.bindings.question);
-
-  context.log(req);
-
-  context.log("hello from slack");
-
-  // queueClient.sendMessage(req.body.hello);
+  queueClient.sendMessage(parsedData.text);
 };
