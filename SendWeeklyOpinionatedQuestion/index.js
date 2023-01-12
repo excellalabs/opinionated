@@ -16,16 +16,16 @@ module.exports = async function (context, myTimer) {
 
   context.log(Buffer.from(firstMessage.messageText, "base64").toString());
 
-  const queuedMessageText = Buffer.from(
-    firstMessage.messageText,
-    "base64"
-  ).toString();
+  // const queuedMessageText = Buffer.from(
+  //   firstMessage.messageText,
+  //   "base64"
+  // ).toString();
 
   axios
     .post(
       process.env.SLACK_WEBHOOK,
       {
-        text: queuedMessageText,
+        text: firstMessage.messageText,
       },
       {
         headers: {

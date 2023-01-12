@@ -1,12 +1,31 @@
 const axios = require("axios");
+const { QueueServiceClient } = require("@azure/storage-queue");
 
 module.exports = async function (context, req) {
-  context.log("JavaScript HTTP trigger function processed a request.");
+  const connectionString = process.env.STORAGE_CONNECTION_STRING;
+
+  const queueName = "opinionated-questions";
+
+  const queueServiceClient =
+    QueueServiceClient.fromConnectionString(connectionString);
+
+  const queueClient = queueServiceClient.getQueueClient(queueName);
+
+  const firstMessage = (await queueClient.receiveMessages())
+    .receivedMessageItems[0];
+
+  context.log(Buffer.from(firstMessage.messageText, "base64").toString());
+
+  // const queuedMessageText = Buffer.from(
+  //   firstMessage.messageText,
+  //   "base64"
+  // ).toString();
+
   axios
     .post(
-      "https://hooks.slack.com/services/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",
+      process.env.SLACK_WEBHOOK,
       {
-        text: "Which is better, React or Angular? Tell me why!",
+        text: firstMessage.messageText,
       },
       {
         headers: {
@@ -20,4 +39,9 @@ module.exports = async function (context, req) {
     .catch(function (error) {
       context.log(error);
     });
+
+  await queueClient.deleteMessage(
+    firstMessage.messageId,
+    firstMessage.popReceipt
+  );
 };
