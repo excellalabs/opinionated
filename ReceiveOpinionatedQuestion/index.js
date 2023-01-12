@@ -5,11 +5,20 @@ module.exports = async function (context, req) {
 
   const queueName = "opinionated-questions";
 
-  const queueServiceClient = QueueServiceClient.fromConnectionString(connectionString);
+  const queueServiceClient =
+    QueueServiceClient.fromConnectionString(connectionString);
 
   const queueClient = queueServiceClient.getQueueClient(queueName);
 
-  context.log(context.bindings.question);
+  // context.log("body", req.body);
 
-  queueClient.sendMessage(context.bindings.question)
+  // context.log("try - query params", req.query.name);
+
+  // context.log("context.bindings", context.bindings.question);
+
+  context.log(req);
+
+  context.log("hello from slack");
+
+  queueClient.sendMessage(req.body.hello);
 };

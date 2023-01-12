@@ -2,12 +2,15 @@
   "bindings": [
     {
       "authLevel": "anonymous",
-      "type": "http",
+      "type": "httpTrigger",
       "direction": "in",
-      "name": "question",
-      "methods": [
-        "post"
-      ]
+      "name": "req",
+      "methods": ["post"]
+    },
+    {
+      "type": "http",
+      "direction": "out",
+      "name": "res"
     }
   ]
 }
